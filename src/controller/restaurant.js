@@ -6,6 +6,7 @@ import Restaurant from '../model/restaurant';
 export default ({config,db}) =>{
   let api = Router()
   // for v1/restaurant/add
+  //CREATE-
   api.post('/add', (req,res)=>{
     let newRest = new Restaurant();
     newRest.name = req.body.name;
@@ -43,7 +44,7 @@ export default ({config,db}) =>{
   });
 
   //PUT- /V1/restaurant/:ID
-  api.put('/;id', (req,res)=>{
+  api.put('/:id', (req,res)=>{
     Restaurant.findById(req.params.id, (err,restaurant)=>{
       if (err) {
         res.send(err);
@@ -59,6 +60,19 @@ export default ({config,db}) =>{
 
       }
     })
+  });
+
+  //DELETE- V1/Restaurant/:ID
+  api.delete('/:id', (req,res)=>{
+    Restaurant.remove({
+      _id: req.params.id
+    },(err, restaurant)=>{
+      if (err) {
+        res.send(err)
+      }else {
+        res.json({message:`Restaurant  successfully removed`})
+      }
+    });
   });
 
   return api;
